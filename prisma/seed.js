@@ -11,6 +11,8 @@ const prisma = new PrismaClient({ adapter });
 async function main() {
     console.log('🌱 Iniciando seed...');
 
+    await prisma.food.deleteMany();
+
     await prisma.food.createMany({
         data: [
             { name: 'Bruschetta', description: 'Pão italiano tostado com tomate, manjericão e azeite', price: 18.90, category: 'entrada' },

@@ -53,7 +53,7 @@ export const create = async (req, res) => {
             description,
             price: parseFloat(price),
             category,
-            available: available !== undefined ? Boolean(available) : true,
+            available: available === undefined ? true : (available === 'true' || available === true),
         });
 
         res.status(201).json({
@@ -102,7 +102,34 @@ export const update = async (req, res) => {
             return res.status(404).json({ error: 'Registro não encontrado para atualizar.' });
         }
 
-        const data = await Foodmodel.update(id, req.body);
+        //! Sanitizar body: só aceitar campos válidos para update
+        const { name, description, price, category, available } = req.body;
+        const updateData = {};
+
+        if (name !== undefined) updateData.name = name;
+        if (description !== undefined) updateData.description = description;
+        if (price !== undefined) {
+            if (isNaN(price) || parseFloat(price) <= 0) {
+                return res.status(400).json({ error: 'O preço deve ser um número positivo!' });
+            }
+            updateData.price = parseFloat(price);
+        }
+        if (category !== undefined) {
+            const categoriasValidas = ['entrada', 'prato principal', 'sobremesa', 'bebida'];
+            if (!categoriasValidas.includes(category.toLowerCase())) {
+                return res.status(400).json({ error: `Categoria inválida. Use: ${categoriasValidas.join(', ')}` });
+            }
+            updateData.category = category;
+        }
+        if (available !== undefined) {
+             updateData.available = available === 'true' || available === true;
+        }
+
+        if (Object.keys(updateData).length === 0) {
+            return res.status(400).json({ error: 'Nenhum campo válido enviado para atualização.' });
+        }
+
+        const data = await Foodmodel.update(id, updateData);
         res.json({
             message: `O registro "${data.name}" foi atualizado com sucesso!`,
             data,
