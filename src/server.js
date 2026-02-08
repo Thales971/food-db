@@ -2,6 +2,7 @@ import express from "express";
 import "dotenv/config";
 import foodRoutes from "./routes/foodRoute.js";
 
+//* Configuração do servidor 
 const app = express();
 app.use(express.json());
 

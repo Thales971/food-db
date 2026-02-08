@@ -2,7 +2,7 @@ import * as Foodmodel from "../models/foodModel.js";
 
 export const getAll = async (req, res) => {
   try {
-    // Validação de filtros
+    // Validação de filtros //! Funciona...
 
     const filters = {};
 
@@ -131,7 +131,7 @@ export const update = async (req, res) => {
         .json({ error: "Registro não encontrado para atualizar." });
     }
 
-    //! Sanitizar body: só aceitar campos válidos para update
+    //! Verificar body pra nao dar b.o: só aceitar campos válidos para update
     const { name, description, price, category, available } = req.body;
     const updateData = {};
 

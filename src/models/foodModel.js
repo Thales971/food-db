@@ -1,5 +1,6 @@
 import prisma from "../utils/prismaClient.js";
 
+//* Model das comidas 
 export const create = async (data) => {
   return await prisma.food.create({ data });
 };

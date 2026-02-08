@@ -6,6 +6,7 @@ datasource db {
     provider = "postgresql"
 }
 
+//! Schema em inglês pra não dar ruim, Obs: trauma de atividades anteriores...
 model Food {
     id        Int      @id @default(autoincrement())
     name      String

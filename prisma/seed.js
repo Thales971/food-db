@@ -8,6 +8,8 @@ const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
+
+//* seed top com pratos bem apetitosos🥗
 async function main() {
   console.log("🌱 Iniciando seed...");
 
